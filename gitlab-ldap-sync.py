@@ -105,9 +105,7 @@ if __name__ == "__main__":
             if config['gitlab']['add_description']:
                 attrlist.append('description')
             filterstr = '(objectClass=groupOfUniqueNames)'
-            print(attrlist)
-            print(filterstr)
-            print(config['ldap']['groups_base_dn'])
+
             for group_dn, group_data in l.search_s(base=config['ldap']['groups_base_dn'], scope=ldap.SCOPE_SUBTREE, filterstr=filterstr, attrlist=attrlist):
                 print('echo group_dn and group_data '+group_dn)
                 ldap_groups_names.append(group_data['cn'][0].decode())
@@ -121,7 +119,8 @@ if __name__ == "__main__":
                         member = member.decode()
                         for user_dn, user_data in l.search_s(base=config['ldap']['users_base_dn'],
                                                              scope=ldap.SCOPE_SUBTREE,
-                                                             filterstr='(objectClass=inetOrgPerson)',
+                                                             filterstr='(&(employeeNumber=%s)(objectClass=inetOrgPerson))' % (
+                                                                 member),
                                                              attrlist=['uid', 'mail', 'displayName', 'cn']):
                             if 'sAMAccountName' in user_data:
                                 username = user_data['sAMAccountName'][0].decode(
@@ -194,7 +193,7 @@ if __name__ == "__main__":
                                         'username': l_member['username'],
                                         'extern_uid': l_member['identities'],
                                         'provider': config['gitlab']['ldap_provider'],
-                                        'password': 'pouetpouet'
+                                        'password': 'P@ssw0rd098765'
                                     })
                                 except gitlab.exceptions as e:
                                     if e.response_code == '409':
@@ -204,7 +203,7 @@ if __name__ == "__main__":
                                             'username': l_member['username'],
                                             'extern_uid': l_member['identities'],
                                             'provider': config['gitlab']['ldap_provider'],
-                                            'password': 'pouetpouet'
+                                            'password': 'P@ssw0rd098765'
                                         })
                                 g.members.create(
                                     {'user_id': u.id, 'access_level': gitlab.DEVELOPER_ACCESS})
