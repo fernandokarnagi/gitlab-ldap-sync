@@ -102,8 +102,6 @@ if __name__ == "__main__":
             print(config['ldap']['groups_base_dn'])
             for group_dn, group_data in l.search_s(base=config['ldap']['groups_base_dn'],scope=ldap.SCOPE_SUBTREE,filterstr=filterstr,attrlist=attrlist):
                 print('echo group_dn and group_data '+group_dn)
-                print(group_data)
-                print(group_data['cn'][0])
                 ldap_groups_names.append(group_data['cn'][0].decode())
                 ldap_group = {"name": group_data['cn'][0].decode(), "members": []}
                 if config['gitlab']['add_description'] and 'description' in group_data:
