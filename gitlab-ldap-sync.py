@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 gitlab_group = {"name": group.full_name, "members": []}
                 for member in group.members.list(all=True):
                     user = gl.users.get(member.id)
-                    if not user.identities:
+                    if user.identities and len(user.identities) > 0:
                         gitlab_group['members'].append({
                             'username': user.username,
                             'name': user.name,
