@@ -112,7 +112,7 @@ if __name__ == "__main__":
                 print('echo group_dn and group_data '+group_dn)
                 ldap_groups_names.append(group_data['cn'][0].decode())
                 ldap_group = {
-                    "name": group_data['cn'][0].decode(), "member": []}
+                    "name": group_data['cn'][0].decode(), "members": []}
                 if config['gitlab']['add_description'] and 'description' in group_data:
                     ldap_group.update(
                         {"description": group_data['description'][0].decode()})
