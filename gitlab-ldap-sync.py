@@ -75,13 +75,13 @@ if __name__ == "__main__":
                 gitlab_group = {"name": group.full_name, "members": []}
                 for member in group.members.list(all=True):
                     user = gl.users.get(member.id)
-                    print(user)
-                    gitlab_group['members'].append({
-                        'username': user.username,
-                        'name': user.name,
-                        'identities': user.identities[0]['extern_uid'],
-                        'email': user.email
-                    })
+                    if not user.identities:
+                        gitlab_group['members'].append({
+                            'username': user.username,
+                            'name': user.name,
+                            'identities': user.identities[0]['extern_uid'],
+                            'email': user.email
+                        })
                 gitlab_groups.append(gitlab_group)
 
             logging.info('Done.')
