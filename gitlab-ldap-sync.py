@@ -122,7 +122,7 @@ if __name__ == "__main__":
                         for user_dn, user_data in l.search_s(base=config['ldap']['users_base_dn'],
                                                              scope=ldap.SCOPE_SUBTREE,
                                                              filterstr='(objectClass=inetOrgPerson)',
-                                attrlist=['uid', 'mail', 'displayName', 'cn']):
+                                                             attrlist=['uid', 'mail', 'displayName', 'cn']):
                             if 'sAMAccountName' in user_data:
                                 username = user_data['sAMAccountName'][0].decode(
                                 )
@@ -186,7 +186,7 @@ if __name__ == "__main__":
                         else:
                             if config['gitlab']['create_user']:
                                 logging.info(
-                                    '|  |- User %s does not exist in gitlab, creating.' % l_member['name'])
+                                    '|  |- User %s does not exist in gitlab, creating.' % l_member['identities'])
                                 try:
                                     u = gl.users.create({
                                         'email': l_member['email'],
@@ -211,10 +211,10 @@ if __name__ == "__main__":
                                 g.save()
                             else:
                                 logging.info(
-                                    '|  |- User %s does not exist in gitlab, skipping.' % l_member['name'])
+                                    '|  |- User %s does not exist in gitlab, skipping.' % l_member['identities'])
                     else:
                         logging.info(
-                            '|  |- User %s already in gitlab group, skipping.' % l_member['name'])
+                            '|  |- User %s already in gitlab group, skipping.' % l_member['identities'])
                 logging.info('Done.')
 
             logging.info('Done.')
