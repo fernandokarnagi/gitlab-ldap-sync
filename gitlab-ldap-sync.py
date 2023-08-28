@@ -87,6 +87,7 @@ if __name__ == "__main__":
 
             logging.info('Getting all groups from LDAP.')
             ldap_groups = []
+            # SCRIPS:: To update 'groupOfUniqueNames' with 'members'
             ldap_groups_names = []
             if not config['ldap']['group_attribute'] and not config['ldap']['group_prefix']:
                 filterstr = '(objectClass=groupOfUniqueNames)'
@@ -117,6 +118,9 @@ if __name__ == "__main__":
                 if 'uniqueMember' in group_data:
                     for member in group_data['uniqueMember']:
                         member = member.decode()
+                        print('Member add: ' + member)
+                        # SCRIPS:: To update 'employeeNumber' with 'distinguishedName'
+                        # SCRIPS:: To update 'inetOrgPerson' with 'person'
                         for user_dn, user_data in l.search_s(base=config['ldap']['users_base_dn'],
                                                              scope=ldap.SCOPE_SUBTREE,
                                                              filterstr='(&(employeeNumber=%s)(objectClass=inetOrgPerson))' % (
